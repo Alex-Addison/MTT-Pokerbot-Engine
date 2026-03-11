@@ -41,7 +41,7 @@ Now that Python is installed, we need to download the code and install its depen
    * Your computer will download the `treys`, `numpy`, and `pandas` libraries.
 ---
 
-## 🤖 Step 3: Getting to Know the Bots
+## Step 3: Getting to Know the Bots
 
 Inside the folder, you will see a folder called `players`. This is where all bot scripts will be kept.
 
@@ -100,6 +100,8 @@ It controls everything about the simulation:
 
 ## Step 5: Run Simulation
 
+If you're interested in running the engine using Docker, skip to Step 5 (Alternative).
+
 In your terminal (the black box) pointing to the project folder:
 1.  Type:
     `python main.py`
@@ -110,6 +112,26 @@ The Engine will automatically load every single `.py` file inside the `players` 
 **When it finishes:**
 1.  It creates a cleanly organized `simulation_results.csv` file that you can open in Excel to analyze exactly which bot placed where!
 2.  It creates incredibly detailed second-by-second logs inside the `/logs/` folder!
+
+---
+
+## Step 5 (Alternative): Run using Docker
+
+If you don't want to install Python directly on your machine or want to guarantee the environment runs exactly the same everywhere, you can optionally run the engine using **Docker**.
+
+1. **Install Docker Desktop:**
+   - Download it from [docker.com](https://www.docker.com/products/docker-desktop/) and install it.
+   - Keep Docker Desktop running in the background.
+
+2. **Build and Run the Engine:**
+   - Open your terminal pointing to the project folder (`MTT-Pokerbot-Engine`).
+   - Run this command to build the standardized image (this packages all the dependencies automatically):
+     `docker build -t mtt-pokerbot .`
+   - Once it finishes building, run the simulation by typing:
+     `docker run -v "%cd%/logs:/app/logs" -v "%cd%/simulation_results.csv:/app/simulation_results.csv" mtt-pokerbot`
+     *(Mac/Linux users: replace `%cd%` with `$(pwd)`)*
+
+The engine will execute entirely inside the Docker container and automatically save the standard `simulation_results.csv` and `/logs/` back to your main folder for you to view on the visualizer.
 
 ---
 
