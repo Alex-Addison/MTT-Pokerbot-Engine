@@ -170,7 +170,7 @@ function processUpToTime(timeMs) {
     const targetIdx = Math.floor(timeMs / 500);
     const maxIdx = Math.min(targetIdx, playbackState.events.length - 1);
     
-    if (maxIdx < playbackState.currentEventIndex) {
+    if (maxIdx < playbackState.currentEventIndex - 1) {
         // Scrubbed backwards - reset and fast forward
         resetDerivedState();
         playbackState.currentEventIndex = 0;
@@ -247,7 +247,7 @@ function renderAllTables() {
             <div class="pt-id">Table ${tId}</div>
             <div class="pt-count">${pCount} Players</div>
         `;
-        div.onclick = () => {
+        div.onmousedown = () => {
             playbackState.zoomedTableId = tId;
             updateView();
         };
@@ -266,27 +266,52 @@ function renderZoomedTable(tId) {
     
     const playersAtTable = Object.values(playbackState.players).filter(p => p.table_id === tId && p.active);
     
-    // Card formatting via treys integer decoding is complex in JS without rewriting the evaluator
-    // So we'll render simple generic cards based on the array length for the visualization,
-    // or if the integers were translated to strings we would render them directly.
-    // For this generic visualizer, we'll draw placeholder cards.
+    // Helper to render string cards (e.g. "As", "Th") into HTML playing cards
+    const renderCard = (cardStr, isBack = false) => {
+        if (isBack) return `<div class="card back"></div>`;
+        if (!cardStr) return `<div class="card black">*</div>`; // Fallback
+        
+        let rank = cardStr[0].toUpperCase();
+        let suit = cardStr[1].toLowerCase();
+        let suitSymbol = '';
+        let colorClass = 'black';
+        
+        // Handle "T" for ten
+        if (rank === 'T') rank = '10';
+        
+        switch (suit) {
+            case 's': suitSymbol = '♠'; break;
+            case 'c': suitSymbol = '♣'; break;
+            case 'h': suitSymbol = '♥'; colorClass = 'red'; break;
+            case 'd': suitSymbol = '♦'; colorClass = 'red'; break;
+            default: suitSymbol = '?';
+        }
+        
+        return `<div class="card ${colorClass}">
+                    <span>${rank}</span>
+                    <span style="font-size: 0.8em; margin-left:2px;">${suitSymbol}</span>
+                </div>`;
+    };
     
-    const boardHtml = tableData.board.map(c => `<div class="card black">*</div>`).join('');
+    const boardHtml = tableData.board.map(c => renderCard(c)).join('');
     
     let seatsHtml = '';
-    const radius = window.innerWidth < 800 ? 120 : 250;
+    const radius = window.innerWidth < 800 ? 150 : 350;
     
     playersAtTable.forEach((p, index) => {
         const angle = (index / playersAtTable.length) * 2 * Math.PI - Math.PI/2;
         const x = Math.cos(angle) * radius;
-        const y = Math.sin(angle) * (radius * 0.6); // Oval ratio
+        const y = Math.sin(angle) * (radius * 0.55); // Oval ratio
         
-        const holeCardsHtml = (p.hole_cards && p.hole_cards.length > 0) ? `
-            <div class="hole-cards">
-                <div class="card back"></div>
-                <div class="card back"></div>
-            </div>
-        ` : '';
+        let holeCardsHtml = '';
+        if (p.hole_cards && p.hole_cards.length === 2) {
+            holeCardsHtml = `
+                <div class="hole-cards">
+                    ${renderCard(p.hole_cards[0])}
+                    ${renderCard(p.hole_cards[1])}
+                </div>
+            `;
+        }
         
         seatsHtml += `
             <div class="seat" style="left: calc(50% + ${x}px); top: calc(50% + ${y}px);">
@@ -326,7 +351,7 @@ function renderResultsModal() {
 // UI Controls Binding
 // ----------------------------------------------------
 
-zoomOutBtn.onclick = () => {
+zoomOutBtn.onmousedown = () => {
     playbackState.zoomedTableId = null;
     updateView();
 };

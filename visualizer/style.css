@@ -1,14 +1,14 @@
 :root {
-    --bg-dark: #0f172a;
-    --sidebar-bg: rgba(30, 41, 59, 0.8);
-    --panel-bg: rgba(30, 41, 59, 0.6);
-    --accent: #3b82f6;
-    --accent-hover: #60a5fa;
-    --text-primary: #f8fafc;
-    --text-secondary: #94a3b8;
-    --danger: #ef4444;
-    --success: #10b981;
-    --table-bg: #115e59;
+    --bg-dark: #000000;
+    --sidebar-bg: rgba(20, 20, 20, 0.9);
+    --panel-bg: rgba(118, 119, 123, 0.2);
+    --accent: #CC0000;
+    --accent-hover: #ff3333;
+    --text-primary: #ffffff;
+    --text-secondary: #76777B;
+    --danger: #CC0000;
+    --success: #ffffff;
+    --table-bg: #1c1c1c;
     --card-bg: #ffffff;
     --card-text: #000000;
 }
@@ -98,7 +98,7 @@ body {
     display: flex;
     flex-direction: column;
     position: relative;
-    background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
+    background: radial-gradient(circle at center, #1c1c1c 0%, #000000 100%);
 }
 
 #top-bar {
@@ -139,6 +139,7 @@ body {
 
 .control-btn.active {
     background: var(--success);
+    color: var(--card-text);
 }
 
 #arena {
@@ -252,12 +253,12 @@ input[type=range] {
 
 /* Zoomed In View */
 .zoomed-table {
-    width: 80%;
-    max-width: 800px;
+    width: 90%;
+    max-width: 1000px;
     height: 60%;
     max-height: 400px;
     background: var(--table-bg);
-    border-radius: 200px;
+    border-radius: 200px / 120px;
     border: 10px solid rgba(0,0,0,0.3);
     position: relative;
     box-shadow: inset 0 0 50px rgba(0,0,0,0.5), 0 20px 50px rgba(0,0,0,0.5);

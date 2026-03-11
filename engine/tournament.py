@@ -18,6 +18,12 @@ class Tournament:
         
         self.events = []
         
+        self.events.append({
+            "type": "tournament_start",
+            "blinds": config.blinds_schedule[self.current_blind_idx],
+            "players": [p.name for p in self.players]
+        })
+        
         self._seat_players_randomly()
 
     def _seat_players_randomly(self):
@@ -71,12 +77,6 @@ class Tournament:
         Runs the tournament until 1 player remains.
         Returns (placements_list, events_list).
         """
-        self.events.append({
-            "type": "tournament_start",
-            "blinds": config.blinds_schedule[self.current_blind_idx],
-            "players": [p.name for p in self.players]
-        })
-        
         while sum(len(t.players) for t in self.tables) > 1:
             blinds = config.blinds_schedule[self.current_blind_idx]
             

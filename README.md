@@ -128,14 +128,16 @@ If you don't want to install Python directly on your machine or want to guarante
    - Run this command to build the standardized image (this packages all the dependencies automatically):
      `docker build -t mtt-pokerbot .`
    - Once it finishes building, run the simulation by typing:
-     `docker run -v "%cd%/logs:/app/logs" -v "%cd%/simulation_results.csv:/app/simulation_results.csv" mtt-pokerbot`
-     *(Mac/Linux users: replace `%cd%` with `$(pwd)`)*
+     `docker run -v "${PWD}/logs:/app/logs" -v "${PWD}/simulation_results.csv:/app/simulation_results.csv" mtt-pokerbot`
+     *(Note: If you are using standard Windows Command Prompt instead of PowerShell, replace `${PWD}` with `%cd%`. Mac/Linux users use `$(pwd)`)*
 
 The engine will execute entirely inside the Docker container and automatically save the standard `simulation_results.csv` and `/logs/` back to your main folder for you to view on the visualizer.
 
 ---
 
 ## Step 6: Use the Visualizer
+
+![Visualizer](Visualizer.png)
 
 1. In your terminal, type:
    `python server.py`

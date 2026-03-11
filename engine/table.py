@@ -68,7 +68,7 @@ class Table:
         for p in self.players:
             if p.is_active:
                 p.hole_cards = deck.draw(2)
-                events.append({"type": "deal", "table_id": self.table_id, "player": p.name, "cards": p.hole_cards})
+                events.append({"type": "deal", "table_id": self.table_id, "player": p.name, "cards": [Card.int_to_str(c) for c in p.hole_cards]})
 
         # 2. Pre-Flop Betting
         action_start_idx = (bb_idx + 1) % num_players
@@ -78,21 +78,21 @@ class Table:
         if self._active_players_count() > 1:
             drawn = deck.draw(3)
             board.extend(drawn)
-            events.append({"type": "board", "table_id": self.table_id, "cards": drawn, "street": "flop"})
+            events.append({"type": "board", "table_id": self.table_id, "cards": [Card.int_to_str(c) for c in drawn], "street": "flop"})
             self._betting_round(blinds, board, pot_manager, sb_idx, 0, events)
             
         # 4. Turn
         if self._active_players_count() > 1:
             drawn = deck.draw(1) if isinstance(deck.draw(1), int) else deck.draw(1)[0]
             board.append(drawn)
-            events.append({"type": "board", "table_id": self.table_id, "cards": [drawn], "street": "turn"})
+            events.append({"type": "board", "table_id": self.table_id, "cards": [Card.int_to_str(drawn)], "street": "turn"})
             self._betting_round(blinds, board, pot_manager, sb_idx, 0, events)
 
         # 5. River
         if self._active_players_count() > 1:
             drawn = deck.draw(1) if isinstance(deck.draw(1), int) else deck.draw(1)[0]
             board.append(drawn)
-            events.append({"type": "board", "table_id": self.table_id, "cards": [drawn], "street": "river"})
+            events.append({"type": "board", "table_id": self.table_id, "cards": [Card.int_to_str(drawn)], "street": "river"})
             self._betting_round(blinds, board, pot_manager, sb_idx, 0, events)
 
         # 6. Showdown and Pot Distribution
