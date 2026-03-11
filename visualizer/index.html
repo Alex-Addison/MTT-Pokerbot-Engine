@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MTT Pokerbot Engine Visualizer</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="app">
+        <div id="sidebar">
+            <div class="sidebar-header">
+                <h2>Leaderboard</h2>
+                <div class="stats">
+                    <span id="players-alive">Players: 0</span> | 
+                    <span id="current-blinds">Blinds: 0/0</span>
+                </div>
+            </div>
+            <div id="leaderboard-list">
+                <!-- Players injected here by app.js -->
+            </div>
+        </div>
+
+        <div id="main-view">
+            <div id="top-bar">
+                <div class="file-load">
+                    <button class="control-btn" onclick="document.getElementById('sim-file').click()">Load Simulation</button>
+                    <input type="file" id="sim-file" accept=".json" style="display: none;">
+                    <span id="loaded-filename">No simulation loaded</span>
+                </div>
+                <div class="view-controls">
+                    <button id="btn-zoom-out" class="control-btn active">All Tables</button>
+                </div>
+            </div>
+
+            <div id="arena">
+                <!-- Tables rendered here -->
+                <div id="welcome-msg">Load a JSON simulation log from /logs/ to begin playback.</div>
+            </div>
+
+            <div id="controls-bar">
+                <button id="btn-play-pause" class="control-btn play-btn" disabled>▶</button>
+                <div class="timeline-container">
+                    <input type="range" id="timeline" min="0" max="100" value="0" disabled>
+                    <div id="time-display">0:00 / 0:00</div>
+                </div>
+                <div class="speed-controls">
+                    <button class="speed-btn active" data-speed="1">1x</button>
+                    <button class="speed-btn" data-speed="2">2x</button>
+                    <button class="speed-btn" data-speed="5">5x</button>
+                    <button class="speed-btn" data-speed="10">10x</button>
+                    <button class="speed-btn" data-speed="50">50x</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Modal for final results -->
+        <div id="results-modal" class="hidden">
+            <div class="modal-content">
+                <h2>Tournament Complete</h2>
+                <div id="results-list"></div>
+                <button id="btn-close-modal" class="control-btn">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
