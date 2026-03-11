@@ -137,7 +137,7 @@ The engine will execute entirely inside the Docker container and automatically s
 
 ## Step 6: Use the Visualizer
 
-![Visualizer](Visualizer.png)
+![Visualizer](visualizer.png)
 
 1. In your terminal, type:
    `python server.py`
